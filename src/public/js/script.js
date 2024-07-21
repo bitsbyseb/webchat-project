@@ -7,24 +7,35 @@
  * @param {"true" | "false"} rightSide
  * @returns {void} 
  */
-function showMessage(text, username, userImage = "",rightSide = "false") {
+function showMessage(text, username, userImage = "", rightSide = "false") {
     const messagesContainer = document.querySelector(".allMessages");
     const messageElement = document.createElement('message-element');
     messageElement.setAttribute('text', text);
     messageElement.setAttribute('username', username);
-    messageElement.setAttribute('userImage', userImage);
-    messageElement.setAttribute('rightside',rightSide);
+    messageElement.setAttribute('userimage', userImage);
+    messageElement.setAttribute('rightside', rightSide);
     messagesContainer.append(messageElement);
 }
 
-function getCurrentUsername() {
-    const cookies = document.cookie;
-    const valueRegex = /username\=(.*)/g;
-    let username = "";
-    for (let match of cookies.matchAll(valueRegex)) {
-        username += match[1];
+/**
+ * 
+ * @param {string} cname 
+ * @returns 
+ */
+function getCookieValue(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
     }
-    return username;
+    return "";
 }
 
 const socket = io();
@@ -36,15 +47,15 @@ submitButton.addEventListener('click', e => {
     const message = input.value;
 
     if (Boolean(message)) {
-        socket.emit("message", { username: getCurrentUsername(), message, });
+        socket.emit("message", { username: getCookieValue("username"), message, imgUrl: getCookieValue("imgUrl") });
         input.value = "";
-        showMessage(message, getCurrentUsername(),"");
+        showMessage(message, getCookieValue("username"), getCookieValue("imgUrl"));
     } else {
         alert("empty messages aren't allowed");
     }
 });
 
-socket.on('message', ({ username, message }) => {
-    showMessage(message, username,"","true");
+socket.on('message', ({ username, message, imgUrl }) => {
+    showMessage(message, username, imgUrl, "true");
 });
 

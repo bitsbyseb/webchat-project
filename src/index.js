@@ -14,6 +14,9 @@ app.use(express.static(join(import.meta.dirname,"public")));
 
 await createIoInstance(server);
 
-server.listen(3000 ?? process.env.PORT,'192.168.0.5',() => {
-    console.log(`server at http://192.168.0.5:${process.env.PORT ?? 3000}`);
+const port = process.env.PORT ?? 3000;
+const host = '127.0.0.1';
+
+server.listen(port,host,() => {
+    console.log(`server at http://${host}:${port}`);
 });

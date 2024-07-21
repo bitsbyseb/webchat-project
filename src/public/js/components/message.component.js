@@ -3,7 +3,7 @@ class MessageElement extends HTMLElement {
         super();
     }
 
-    static observedAttributes = ["text", "userImage", "username","rightside"];
+    static observedAttributes = ["text", "userimage", "username","rightside"];
 
     attributeChangedCallback(current, oldValue, newValue) {
         if (oldValue !== newValue) {
@@ -12,10 +12,10 @@ class MessageElement extends HTMLElement {
     }
 
     get properties() {
-        const { text, userImage, username,rightside } = this;
+        const { text, userimage, username,rightside } = this;
         return {
             text,
-            userImage,
+            userimage,
             username,
             rightside
         }
@@ -29,12 +29,12 @@ class MessageElement extends HTMLElement {
 
     get template() {
         const template = document.createElement('template');
-        const { text, userImage, username,rightside } = this.properties;
+        const { text, userimage, username,rightside } = this.properties;
         template.innerHTML = `
             <div class="message ${rightside === "true" ? "rightSide" : ""}">
 
                 <div class="imageContainer">
-                    <img src="${userImage ?? "/images/userImage.jpg"}" alt="userImage">
+                    <img src="${userimage ?? "/images/userimage.jpg"}" alt="userimage">
                 </div>
 
                 <div class="messageBody">
