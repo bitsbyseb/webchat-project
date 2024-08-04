@@ -53,7 +53,7 @@ class MessageElement extends HTMLElement {
     }
 
     disconnectedCallback() {
-
+        this.remove();
     }
 }
 
