@@ -1,7 +1,7 @@
 # **Webchat Project by Johan Puentes**
 Hello everyone, this is a short project in order to learn
 the fundamental items about websockets, i have been learning
-socket.io using a platzi course, so this project was made to
+socket.io by a platzi course, so this project was made to
 challenge myself to learn something new, i'd like that you
 push your changes and mark this repository with a star.
 
@@ -9,7 +9,7 @@ push your changes and mark this repository with a star.
 
 * clone this project using git:
 ```
-git clone https://github.com/bitsbyseb/webchat-project
+git clone https://github.com/bitsbyseb/webchat-project.git
 ```
 
 * then, get in that folder:
@@ -35,4 +35,4 @@ and finally, run the project:
 node --run start
 ```
 
-now, you can visit the project in every device connected to you local network and write messages between your friends or family.
+now, you can visit the project in every device connected to your local network and write messages between your friends or family.
