@@ -34,7 +34,7 @@ class MessageElement extends HTMLElement {
             <div class="message ${rightside === "true" ? "rightSide" : ""}">
 
                 <div class="imageContainer">
-                    <img src="${userimage ?? "/images/userimage.jpg"}" alt="userimage">
+                    <img src="${userimage ? userimage : "/images/userimage.jpg"}" alt="userimage">
                 </div>
 
                 <div class="messageBody">
