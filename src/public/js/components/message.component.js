@@ -21,37 +21,77 @@ class MessageElement extends HTMLElement {
      * @typedef imgStructure
      * @property {string} alt
      * @property {string} url
-     */
+    */
     #extractImages() {
         const imageRegex = /\!\[([a-zA-Z0-9\s]+)\]\((.*)\)/g;
         /**
          * @type {string}
-         */
+        */
         let text = this.text;
         const match = text.matchAll(imageRegex);
         /**
          * @type {imgStructure[]}
-         */
+        */
         const images = [];
         for (const img of match) {
             images.push({
-                alt:img[1],
-                url:img[2]
+                alt: img[1],
+                url: img[2]
             });
         }
-        this.setAttribute("text",text.replace(imageRegex,""));
+        this.setAttribute("text", text.replace(imageRegex, ""));
         return images;
     }
 
-     get template() {
+    #applyTitleElements() {
+        const titleContentRegex = /^[#]{1,6}(.*)$/gm;
+        const titleTypeRegex = /^([#]+)/g;
+        /**
+         * @type {string}
+         */
+        let text = this.text;
+        const elements= [];
+         const match = text.matchAll(titleContentRegex);
+         for (const input of match) {
+            const data = input[1];
+            const titleIndex = input.input.match(titleTypeRegex).join('').length;
+            elements.push({
+                htmlStr:`<h${titleIndex > 6 ? 6 : titleIndex}>${data}</h${titleIndex > 6 ? 6 : titleIndex}>`,
+                charToReplace:input.input
+            });
+
+        }
+         elements.forEach(x => this.setAttribute("text",text.replace(x.charToReplace,x.htmlStr)));
+    }
+
+    #applyBoldFont() {
+        const boldRegex = /\*\*(.*)\*\*/g;
+        /**
+         * @type {string}
+        */
+       let text = this.text;
+       const elements= [];
+        const match = text.matchAll(boldRegex);
+        for (const input of match) {
+            elements.push({
+                htmlStr:`<b>${input[1]}</b>`,
+                charToReplace:`**${input[1]}**`
+            });
+        }
+        elements.forEach(x => this.setAttribute("text",text.replace(x.charToReplace,x.htmlStr)));
+    }
+
+    get template() {
+        this.#applyBoldFont();
+        this.#applyTitleElements();
         const images = this.#extractImages();
         const template = document.createElement('template');
-        const {text,userimage, username,righted } = this;
+        const { text, userimage, username, righted } = this;
         template.innerHTML = `
-            <div class="message ${righted === "true" ? "rightSide" : ""}">
-
-                <div class="imageContainer">
-                    <img src="${userimage ? userimage : "/images/userimage.jpg"}" alt="userimage">
+        <div class="message ${righted === "true" ? "rightSide" : ""}">
+        
+        <div class="imageContainer">
+        <img src="${userimage ? userimage : "/images/userimage.jpg"}" alt="userimage">
                 </div>
 
                 <div class="messageBody">
@@ -60,14 +100,14 @@ class MessageElement extends HTMLElement {
                         <span class="username">${username}</span>
                         <span class="time">a second ago</span>
                     </div>
-                    <p>${text}</p>
+                    <p>${text}
+                    </p>
                     
                     <div class="userImages">
-                    ${
-                        images.map(x => {
-                            return `<img src="${x.url}" alt="${x.alt}"/>`;
-                        })
-                    }
+                    ${images.map(x => {
+            return `<img src="${x.url}" alt="${x.alt}"/>`;
+        })
+            }
                     </div>
 
                 </div>
