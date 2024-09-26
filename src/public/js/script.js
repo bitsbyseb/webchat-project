@@ -49,7 +49,7 @@ submitButton.addEventListener('click', e => {
     if (Boolean(message)) {
         socket.emit("message", { username: getCookieValue("username"), message, imgUrl: getCookieValue("imgUrl") });
         input.value = "";
-        showMessage(message, getCookieValue("username"), getCookieValue("imgUrl"));
+        showMessage(message, getCookieValue("username"), getCookieValue("imgUrl"),"false");
     } else {
         alert("empty messages aren't allowed");
     }

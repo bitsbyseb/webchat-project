@@ -86,9 +86,10 @@ class MessageElement extends HTMLElement {
         this.#applyTitleElements();
         const images = this.#extractImages();
         const template = document.createElement('template');
-        const { text, userimage, username, righted } = this;
+        const { text, userimage, username,rightside} = this;
+        // const rightside = this.getAttribute('rightside');
         template.innerHTML = `
-        <div class="message ${righted === "true" ? "rightSide" : ""}">
+        <div class="message ${rightside === "true" ? "rightSide" : ""}">
         
         <div class="imageContainer">
         <img src="${userimage ? userimage : "/images/userimage.jpg"}" alt="userimage">
